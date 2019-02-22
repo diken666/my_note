@@ -1,0 +1,39 @@
+git status  查看工作区、暂存区状态
+git add [file name]
+git commit -m "message" [file name]
+
+git log  最完整形式    （空格向下翻页  b向上翻页  q 退出）
+git log --pretty=oneline
+git log --oneline
+
+git reflog
+
+cat [file name]、
+
+版本前进后退
+git reset --hard [局部索引值]
+git reset --hard HEAD^ [一个^表示后退一步]
+git reset --hard HEAD~3 [后退三步]
+
+reset --soft 仅仅在本地库移动HEAD指针
+reset --mixed 在本地库移动HEAD指针  重置暂存区
+
+git diff [文件名]  将工作区文件和暂存区比较
+git diff [本地库中历史版本][文件名]
+
+git branch -v  查看分支
+git branch [name] 创建分支
+
+git  fetch origin master 
+git checkout [name] 切换分支
+
+git merge [分支名] 合并分支（需要先切换到接收修改的分支）
+
+git remote add [name] [link]
+git remote -v
+
+git push [name][分支名]
+git pull  [name][分支名]
+
+git pull origin master //把本地仓库的变化连接到远程仓库主分支
+git push -u origin master //把本地仓库的文件推送到远程仓库
