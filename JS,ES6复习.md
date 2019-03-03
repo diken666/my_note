@@ -32,5 +32,86 @@ let foo = 2;
  }
  ```
  4. const实际上保证的并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。
+ ```javascript
+ const Arr = [];
+ Arr.push('aaa'); //可以执行
+ ```
+ 5. 顶层对象在浏览器环境下指的是window，在node环境下是global，在ES5中顶层对象的属性和全局变量时等价的。
+ ```javascript
+ // window
+ var a = '123';
+ console.log(a === window.a); //true
+ //global
+ var a = '123';
+ console.log(a === global.a); //true
+ ```
+ 从ES6开始，全局变量将逐渐与顶层对象的属性隔离。
+ ```javascript
+ //window
+ let a = '123'
+ console.log(a === window.a); // false
+ ```
+ 6. 解构赋值时：ES6内部使用===判断一个位置是否有值，如果一个成员不严格等于undefined，默认值是不会生效的。
+ ```javascript
+ let [x = 1] = [undefined];
+ x // 1
+ let [x = 1] = [null]
+ x // null
+ ```
+ 解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。
+ ```javascript
+ let {toString: s} = 123;
+ console.log(s === Number.prototype.toString); //true
+ let {toString: b} = false;
+ console.log(b === Boolean.prototype.toString); //true
+``` 
+7. Symbol: 用来表示独一无二的值，symbol函数前不能使用new命令，否则会报错，因为生成的symbol是一个原始类型的值，不是对象，它是一种类似于字符串的数据类型。symbol值可以转化为字符串和布尔值，但是不能转化为数值，且不能与其他类型的值进行运算，否则会报错。
+```javascript
+var s = Symbol('s');
+String(s); // 'Symbol(s)'
+Boolean(s); // true
+```
+symbol值做为对象属性时，不能使用点运算符，且应该放在[]中。
+```javascript
+var s = Symbol();
+var obj = {
+    [s]: '111'   // 如果不用[]，则代表键名是字符串s
+}
+```
+8. Set：类似于数组，但是成员的值都是唯一的，没有重复。
+```javascript
+var a = new Set([1, 1, 2, 3]);
+a // set [1, 2, 3]
+```
+weakSet：与set结构类似，但是有两点不同，1：weakSet的成员只能是对象，而不能是其他类型的值 2：weakSet中的对象都是弱引用，及垃圾回收机制不考虑对该对象的引用。
+9. Map：类似于对象，也是键值对的集合，但是键的范围不限于字符串，map结构的供了‘值-值’的对应。
+   weakMap：与Map的区别，1：weakMap只接受对象作为健名（null除外）2：weakMap的键名所指向的对象不计入垃圾回收机制。
+10. Proxy：代理，用于修改某些操作的默认行为。
+```javascript
+var obj = new Proxy({}, {
+  get: function(target, key, receiver){
+    console.log('get: '+key);
+    return Reflect.get(target, key, receiver);
+  },
+  set: function(target, key, receiver){
+    console.log('set: '+key);
+    return Reflect.get(target, key, receiver)
+  }
+})
+obj.a = 1; // set: 1
+b = obj.a; // get: a
+```
+11. generator: 是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。
+```javascript
+function* foo(x) {
+    yield x + 1;
+    yield x + 2;
+    return x + 3;
+}
+var fo = foo(2);
+fo.next(); // Object { value: 3, done: false }
+fo.next(); // Object { value: 4, done: false }
+fo.next(); // Object { value: 5, done: false }
+```
 
- 
+
