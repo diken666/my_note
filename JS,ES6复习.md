@@ -148,6 +148,15 @@ fo.next(); // Object { value: 5, done: false }
     class Foo{}
     Foo.prop = 1;
     ```
+    (7) class作为构造函数的语法糖，同时具有prototype和__proto__属性，因此同时存在两条继承链。
+    ```javascript
+    class A{}
+    class B extends A{}
+    var a = new A();
+    a.__proto__ === A.prototype.constructor; //true
+    B.__proto__ === A; //true
+    B.prototype.__proto__ === A.prototype; //true
+    ```
     
     
 
