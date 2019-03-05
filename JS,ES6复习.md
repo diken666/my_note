@@ -132,5 +132,22 @@ fo.next(); // Object { value: 5, done: false }
     new Foo();    //ReferenceError
     class Foo{}
     ```
+    (5) 类中的静态方法：前面加上static关键字，该方法不会被实例继承，而是直接通过类调用。
+    ```javascript
+    class Foo {
+        static sayHello(){
+            console.log('hello');
+        }
+    }
+    Foo.sayHello() //'hello'
+    var foo = new Foo();
+    foo.sayHello(); //foo.sayHello is not a function
+    ```
+    (6) 目前，ES6中只有静态方法没有静态属性，要想达到同种效果需
+    ```javascript
+    class Foo{}
+    Foo.prop = 1;
+    ```
+    
     
 
