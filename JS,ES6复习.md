@@ -113,5 +113,24 @@ fo.next(); // Object { value: 3, done: false }
 fo.next(); // Object { value: 4, done: false }
 fo.next(); // Object { value: 5, done: false }
 ```
-
+12. class：ES6中的class可以看做是一个语法糖，它的绝大部分功能，ES5也能做到。
+    (1) 类的数据类型是函数，类本身就指向它的构造函数：
+    ```javascript
+    class Point {}
+    typeof Point // function
+    Point === Point.prototype.constructor  //true
+    ```
+    (2) 类和模块的内部默认使用严格模式，所以不需要使用use strict指定运行模式。
+    (3) 与ES5一样，类的所有实例共享一个原型对象：
+    ```javascript
+    var p1 = new Point(2, 3);
+    var p2 = new Point(3, 2);
+    p1.__proto__ === p2.__proto__  //true
+    ```
+    (4) 类不存在变量提升，这一点与ES5完全不同：
+    ```javascript
+    new Foo();    //ReferenceError
+    class Foo{}
+    ```
+    
 
