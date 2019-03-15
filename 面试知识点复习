@@ -1,3 +1,51 @@
 # 面试知识点复习
 
-### java
+### Java
+1. 接收用户输入数据：
+```java
+import java.util.Sacnner;
+
+public class scannerUse{
+  public static void main(String[] args){
+    Scanner input = new Scanner(System.in);
+    double dd = input.nextDouble();
+    String str = input.next();
+    float f = input.nextFloat();
+    System.out.print(dd, str, f)
+  }
+}
+```
+2. 注意：Java中 整数/整数 = 整数， 例如 3/2=1， 如果需要的要小数部分，需要将被除数变成浮点数，3.0/2=1.5
+3. Java中声明常量
+```java
+final double PI = 3.1415;
+// JavaScript
+// const PI = 3.1415;
+```
+4. Java中常用的运算方法：
+```java
+  // 幂运算
+  Math.pow(2,3) //8
+  Math.pow(4,0.5) //2
+  // 返回当前时间
+  System.currentTimeMillis();
+  //
+  import java.util.Date;
+  public class dateUse{
+    public static void main(String[] args){
+      Date date = new Date();
+      // date.getDate() 
+      // date.getMonth()
+      // date.getYear()
+    }
+  }
+switch(day){
+  case 0:
+  case 1:
+  case 2: System.out.print('sss');
+  default: System.out.print('aaa');
+}
+// 定义数组
+double[] arr = new double[10];
+```
+5. Java中的String对象
