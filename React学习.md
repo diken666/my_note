@@ -74,11 +74,13 @@
   6. 组件间的通信方式
   + 父->子：通过props
   + 子->父：利用回调函数 和 自定义事件机制
-  + 跨级（上到下）: 利用context实现
+  + 跨级（上到下）: 利用context实现（见下一）
+  + 无嵌套关系的组件通信（见下二）
    ```jsx
     import React from 'react'; 
     import ReactDOM from 'react-dom'; 
     import PropTypes from 'prop-types';
+    
     class List extends React.Component{
     static childContextTypes = {
         propA: PropTypes.string
@@ -103,6 +105,7 @@
         </div>
      }
     }
+    
     class ListItem extends React.Component{
     static contextTypes = {
     	propA: PropTypes.string
@@ -123,3 +126,55 @@
     )
    ```
    
+   ```jsx
+   // 不嵌套组件间的通信主要是靠 node.js Events模块来实现的
+   // npm i events -D 安装模块
+   // 新建 event.js文件， 里面内容为   import {EventEmitter} from 'events';  export default new EventEmitter();
+   
+   import React from 'react';
+   import ReactDOM from 'react-dom';
+   import emitter from './event';
+   
+   class List1 extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            message: '---'
+        }
+    }
+    componentDidMount(){
+        this.eventEmitter = emitter.addListener('postMessage', (message)=>{
+            this.setState({
+                message
+            })
+        })
+    }
+    componentWillUnmount(){
+        emitter.removeListener(this.eventEmitter)
+    }
+
+    render(){
+        return <div>
+            <p>收到List2的消息为：{this.state.message}</p>
+        </div>
+     }
+    }
+
+    class List2 extends React.Component{
+       clickHandler(message){
+          emitter.emit('postMessage', message)
+       }
+       render(){
+            return <div>
+                <button onClick={()=>this.clickHandler('lalala')}>点我向List1传递消息</button>
+            </div>
+       }
+     }
+     
+     ReactDOM.reader(){
+     	return <div>
+	    <List1/>
+	    <List2/>
+	</div>
+     }
+   ```
