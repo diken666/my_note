@@ -78,8 +78,7 @@
     ```jsx
     import React from 'react'; 
     import ReactDOM from 'react-dom'; 
-    import PropTypes from 'prop-types'
-    
+    import PropTypes from 'prop-types';
     class List extends React.Component{
     static childContextTypes = {
         propA: PropTypes.string
@@ -104,18 +103,17 @@
         </div>
     }
 }
-
 class ListItem extends React.Component{
     static contextTypes = {
-        propA: PropTypes.string
+	propA: PropTypes.string
     };
 
     render(){
-        return <div>
-            <input type="text" onChange={this.props.onChange}/>
-            <p>收到父组件Context信息为：{this.context.propA}</p>
-            <p>收到父组件props信息为：{this.props.name}</p>
-        </div>
+	return <div>
+	    <input type="text" onChange={this.props.onChange}/>
+	    <p>收到父组件Context信息为：{this.context.propA}</p>
+	    <p>收到父组件props信息为：{this.props.name}</p>
+	</div>
     }
 }
 
@@ -123,4 +121,4 @@ ReactDOM.render(<div>
   <List></List>
 </div>, document.querySelector('#app')
 )
-    ```
+```
