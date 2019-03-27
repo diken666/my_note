@@ -102,23 +102,23 @@
             <ListItem name={this.state.name} onChange={(e)=>this.changeHandler(e)}></ListItem>
         </div>
     }
-}
-class ListItem extends React.Component{
-    static contextTypes = {
+    }
+	class ListItem extends React.Component{
+	static contextTypes = {
 	propA: PropTypes.string
-    };
+	};
 
-    render(){
+	render(){
 	return <div>
 	    <input type="text" onChange={this.props.onChange}/>
 	    <p>收到父组件Context信息为：{this.context.propA}</p>
 	    <p>收到父组件props信息为：{this.props.name}</p>
 	</div>
-    }
-}
+	}
+	}
 
-ReactDOM.render(<div>
-  <List></List>
-</div>, document.querySelector('#app')
-)
-```
+	ReactDOM.render(<div>
+	<List></List>
+	</div>, document.querySelector('#app')
+	)
+   ```
