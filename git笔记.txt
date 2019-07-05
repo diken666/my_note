@@ -1,39 +1,47 @@
-git status  ²é¿´¹¤×÷Çø¡¢Ôİ´æÇø×´Ì¬
+git status  æŸ¥çœ‹å·¥ä½œåŒºã€æš‚å­˜åŒºçŠ¶æ€
 git add [file name]
 git commit -m "message" [file name]
 
-git log  ×îÍêÕûĞÎÊ½    £¨¿Õ¸ñÏòÏÂ·­Ò³  bÏòÉÏ·­Ò³  q ÍË³ö£©
+git log  æœ€å®Œæ•´å½¢å¼    ï¼ˆç©ºæ ¼å‘ä¸‹ç¿»é¡µ  bå‘ä¸Šç¿»é¡µ  q é€€å‡ºï¼‰
 git log --pretty=oneline
 git log --oneline
 
 git reflog
 
-cat [file name]¡¢
+cat [file name]ã€
 
-°æ±¾Ç°½øºóÍË
-git reset --hard [¾Ö²¿Ë÷ÒıÖµ]
-git reset --hard HEAD^ [Ò»¸ö^±íÊ¾ºóÍËÒ»²½]
-git reset --hard HEAD~3 [ºóÍËÈı²½]
+ç‰ˆæœ¬å‰è¿›åé€€
+git reset --hard [å±€éƒ¨ç´¢å¼•å€¼]
+git reset --hard HEAD^ [ä¸€ä¸ª^è¡¨ç¤ºåé€€ä¸€æ­¥]
+git reset --hard HEAD~3 [åé€€ä¸‰æ­¥]
 
-reset --soft ½ö½öÔÚ±¾µØ¿âÒÆ¶¯HEADÖ¸Õë
-reset --mixed ÔÚ±¾µØ¿âÒÆ¶¯HEADÖ¸Õë  ÖØÖÃÔİ´æÇø
+reset --soft ä»…ä»…åœ¨æœ¬åœ°åº“ç§»åŠ¨HEADæŒ‡é’ˆ
+reset --mixed åœ¨æœ¬åœ°åº“ç§»åŠ¨HEADæŒ‡é’ˆ  é‡ç½®æš‚å­˜åŒº
 
-git diff [ÎÄ¼şÃû]  ½«¹¤×÷ÇøÎÄ¼şºÍÔİ´æÇø±È½Ï
-git diff [±¾µØ¿âÖĞÀúÊ·°æ±¾][ÎÄ¼şÃû]
+git diff [æ–‡ä»¶å]  å°†å·¥ä½œåŒºæ–‡ä»¶å’Œæš‚å­˜åŒºæ¯”è¾ƒ
+git diff [æœ¬åœ°åº“ä¸­å†å²ç‰ˆæœ¬][æ–‡ä»¶å]
 
-git branch -v  ²é¿´·ÖÖ§
-git branch [name] ´´½¨·ÖÖ§
+git branch -v  æŸ¥çœ‹åˆ†æ”¯
+git branch [name] åˆ›å»ºåˆ†æ”¯
+it checkout -b branchName  æ–°å»ºåˆ†æ”¯å¹¶è°ƒè½¬åˆ°åˆ†æ”¯branchName
+===
+git branch branchName
++ git checkout branchName
+
+git merge branchName åˆå¹¶åˆ†æ”¯å†…å®¹
+git branch -d branchName åˆ é™¤åˆ†æ”¯
+git commit -a -m "msg" åˆ†æ”¯æäº¤  === git add .   +  git commit - m "msg"
 
 git  fetch origin master 
-git checkout [name] ÇĞ»»·ÖÖ§
+git checkout [name] åˆ‡æ¢åˆ†æ”¯
 
-git merge [·ÖÖ§Ãû] ºÏ²¢·ÖÖ§£¨ĞèÒªÏÈÇĞ»»µ½½ÓÊÕĞŞ¸ÄµÄ·ÖÖ§£©
+git merge [åˆ†æ”¯å] åˆå¹¶åˆ†æ”¯ï¼ˆéœ€è¦å…ˆåˆ‡æ¢åˆ°æ¥æ”¶ä¿®æ”¹çš„åˆ†æ”¯ï¼‰
 
 git remote add [name] [link]
 git remote -v
 
-git push [name][·ÖÖ§Ãû]
-git pull  [name][·ÖÖ§Ãû]
+git push [name][åˆ†æ”¯å]
+git pull  [name][åˆ†æ”¯å]
 
-git pull origin master //°Ñ±¾µØ²Ö¿âµÄ±ä»¯Á¬½Óµ½Ô¶³Ì²Ö¿âÖ÷·ÖÖ§
-git push -u origin master //°Ñ±¾µØ²Ö¿âµÄÎÄ¼şÍÆËÍµ½Ô¶³Ì²Ö¿â
+git pull origin master //æŠŠæœ¬åœ°ä»“åº“çš„å˜åŒ–è¿æ¥åˆ°è¿œç¨‹ä»“åº“ä¸»åˆ†æ”¯
+git push -u origin master //æŠŠæœ¬åœ°ä»“åº“çš„æ–‡ä»¶æ¨é€åˆ°è¿œç¨‹ä»“åº“
