@@ -8,7 +8,7 @@ git log --oneline
 
 git reflog
 
-cat [file name]、
+cat [file name]
 
 版本前进后退
 git reset --hard [局部索引值]
