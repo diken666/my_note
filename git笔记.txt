@@ -29,7 +29,8 @@ git branch branchName
 + git checkout branchName
 
 git merge branchName 合并分支内容
-git branch -d branchName 删除分支
+git branch -d branchName 删除本地分支
+git push -d origin branchName 删除远程仓库的分支
 git commit -a -m "msg" 分支提交  === git add .   +  git commit - m "msg"
 
 git  fetch origin master 
