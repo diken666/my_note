@@ -23,6 +23,8 @@
   viewer.cesiumWidget.screenSpaceEventHandler.setInputAction(this.doubleClick, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK)
   // 移除双击事件
   viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK)
+  // 显示帧率
+  viewer.scene.debugShowFramesPerSecond = true
 ```
 3. 专业的控件展示
 ```javascript
