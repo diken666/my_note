@@ -73,3 +73,124 @@ var homeCameraView = {
 // Set the initial view
 viewer.scene.camera.setView(homeCameraView);
  ```
+9. Cesium Entity是一个数据对象，可以与样式化的图形表示配对，并在空间和时间中定位，资料链接`https://cesium.com/docs/tutorials/creating-entities/`，以下是不同实体：
+  - Polygon 多边形
+  - polyline 多线段
+  - Billboard 广告牌
+  - Label 标签
+  我们在实际生产中，可以为这些实体添加 高度、颜色、花纹等等
+  ```javascript
+    // Primitive API面向图形开发人员的低级别
+    var viewer = new Cesium.Viewer('cesiumContainer');
+    var wyoming = viewer.entities.add({
+      polygon : {
+        hierarchy : Cesium.Cartesian3.fromDegreesArray([
+                      -109.080842,45.002073,
+                      -105.91517,45.002073,
+                      -104.058488,44.996596,
+                      -104.053011,43.002989,
+                      -104.053011,41.003906,
+                      -105.728954,40.998429,
+                      -107.919731,41.003906,
+                      -109.04798,40.998429,
+                      -111.047063,40.998429,
+                      -111.047063,42.000709,
+                      -111.047063,44.476286,
+                      -111.05254,45.002073]),
+        height : 0,
+        material : Cesium.Color.RED.withAlpha(0.5),
+        outline : true,
+        outlineColor : Cesium.Color.BLACK
+      }
+    });
+
+viewer.zoomTo(wyoming);
+  ```
+ ``` javascript
+  // Entity API数据驱动可视化的高级别
+  // 形状可以有很多种，具体参见上面的链接
+  var entity = viewer.entities.add({
+  position: Cesium.Cartesian3.fromDegrees(-103.0, 40.0),
+  ellipse : {
+    semiMinorAxis : 250000.0,
+    semiMajorAxis : 400000.0,
+    material : Cesium.Color.BLUE.withAlpha(0.5)
+  }
+});
+viewer.zoomTo(viewer.entities);
+var ellipse = entity.ellipse; // For upcoming examples
+
+// 我们还可以更改图像的url和样式等
+ellipse.material = '/docs/tutorials/creating-entities/images/cats.jpg';
+ ```
+10. 相机flyTo和zoomTo返回的都是一个promise
+11. `EntityCollection`是一个用于管理和监视一组实体的关联数组。`viewer.entities`是一个`EntityCollection`。EntityCollection包括这样的方法，例如`add`， `remove`和`removeAll`用于管理的实体。
+12. 添加点和标签和图片, 注意点和标签公用一个位置，所以两者间位置要有一些偏差。
+```javascript
+// 添加点和标签
+var viewer = new Cesium.Viewer('cesiumContainer');
+var citizensBankPark = viewer.entities.add({
+    name : 'Citizens Bank Park',
+    position : Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+    point : {
+        pixelSize : 5,
+        color : Cesium.Color.RED,
+        outlineColor : Cesium.Color.WHITE,
+        outlineWidth : 2
+    },
+    label : {
+        text : 'Citizens Bank Park',
+        font : '14pt monospace',
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        outlineWidth : 2,
+        verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+        pixelOffset : new Cesium.Cartesian2(0, -9)
+    }
+});
+viewer.zoomTo(viewer.entities);
+
+// 添加图片
+var citizensBankPark = viewer.entities.add({
+  position : Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+  billboard : {
+    image : '//cesiumjs.org/tutorials/Visualizing-Spatial-Data/images/Philadelphia_Phillies.png',
+    width : 64,
+    height : 64
+  },
+  label : {
+    text : 'Citizens Bank Park',
+    font : '14pt monospace',
+    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+    outlineWidth : 2,
+    verticalOrigin : Cesium.VerticalOrigin.TOP,
+    pixelOffset : new Cesium.Cartesian2(0, 32)
+  }
+});
+```
+13. 为实体添加一些互动
+```javascript
+// 以下代码为从react项目中部分截取
+viewer.cesiumWidget.screenSpaceEventHandler.setInputAction(this.move, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+move(movement){
+    var pickedPrimitive = this.state.viewer.scene.pick(movement.endPosition);
+ 
+    var pickedEntity = (Cesium.defined(pickedPrimitive)) ? pickedPrimitive.id : undefined;
+   
+    if(Cesium.defined(this.state.prives) && this.state.isSet){
+        var tempPrives = this.state.prives;
+        tempPrives.billboard.scale = 1.0;
+        tempPrives.billboard.color = Cesium.Color.WHITE;
+        this.setState({
+            prives : tempPrives
+        })
+    }
+    if (Cesium.defined(pickedEntity) && Cesium.defined(pickedEntity.billboard)) {
+        pickedEntity.billboard.scale = 2.0;
+        pickedEntity.billboard.color = Cesium.Color.ORANGERED;
+        this.setState({
+            prives: pickedEntity,
+            isSet: true
+        })
+    }
+    }
+```
