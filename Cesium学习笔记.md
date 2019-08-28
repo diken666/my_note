@@ -196,3 +196,17 @@ move(movement){
     }
     }
 ```
+14. 添加倾斜模型
+```javascript
+      var tileset = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
+          url: 'http://popcity.popsmart.cn:9001/data/ningbo/yuyao/demo/lvchengnew/tileset.json',
+          maximumScreenSpaceError: 2,       // 最大的屏幕空间误差
+          maximumNumberOfLoadedTiles: 1000,  // 最大加载瓦片个数
+          // modelMatrix: m
+      }));
+      // 这里直接获取tileset中的boundingSphere属性是会报错的
+      // console.log(tileset.boundingSphere)
+      tileset.readyPromise.then(res=>{
+          viewer.camera.flyToBoundingSphere(res.boundingSphere)
+      });
+```
