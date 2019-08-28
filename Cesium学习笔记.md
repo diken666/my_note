@@ -210,3 +210,33 @@ move(movement){
           viewer.camera.flyToBoundingSphere(res.boundingSphere)
       });
 ```
+15. 添加动态纹理颜色
+```javascript
+  var redTube = viewer.entities.add({
+      name : 'Red tube with rounded corners',
+      polylineVolume : {
+          positions : Cesium.Cartesian3.fromDegreesArray([-85.0, 32.0,-85.0, 36.0,-89.0, 36.0]),
+          shape : this.computeCircle(6000.0),
+          //颜色回调
+          material : new Cesium.ColorMaterialProperty(new Cesium.CallbackProperty(function() {
+              return Cesium.Color.fromRandom({
+                  minimumRed : 0.75,
+                  minimumGreen : 0.75,
+                  minimumBlue : 0.75,
+                  alpha : 1.0
+              });
+
+          }, false))
+      }
+  });
+  viewer.zoomTo(viewer.entities)
+  
+  computeCircle(radius) {
+    var positions = [];
+    for (var i = 0; i < 360; i+=100) {
+        var radians = Cesium.Math.toRadians(i);
+        positions.push(new Cesium.Cartesian2(radius * Math.cos(radians), radius * Math.sin(radians)));
+    }
+    return positions;
+  }
+```
