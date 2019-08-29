@@ -434,7 +434,7 @@ function initPosition(){
         if(points.length >=3){
             for(let i=2; i<this.state.point.length; i++){
                 var angle = this.Angle(this.state.positionArr[0], this.state.positionArr[i-1], this.state.positionArr[i]);
-                res += this.getTriangleArea(angle, [this.state.point[0], this.state.point[i-1], this.state.point[2]]);
+                res += this.getTriangleArea(angle, [this.state.point[0], this.state.point[i-1], this.state.point[i]]);
             }
         }
 
