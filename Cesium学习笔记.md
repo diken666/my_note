@@ -3,12 +3,12 @@
 
 1. 常见设置项
 ```javascript
-  animation: false, // 是否创建动画小器件
-  timeline: true,   // 是否显示时间控件
-  fullscreenButton: false, // 是否显示全屏按钮
-  geocoder: false, // 是否显示地名查找控件
-  baseLayerPicker: true,  // 是否显示图层选择控件
-  vrButton: true    // 是否显示vr按钮
+  animation: false, // 是否创建动画小器件 默认true
+  timeline: true,   // 是否显示时间控件  默认true
+  fullscreenButton: false, // 是否显示全屏按钮 默认true
+  geocoder: false, // 是否显示地名查找控件 默认true
+  baseLayerPicker: true,  // 是否显示图层选择控件 默认true
+  vrButton: true    // 是否显示vr按钮 默认false
 ```
 2. 常见动态控制
 ```javascript
