@@ -240,3 +240,78 @@ move(movement){
     return positions;
   }
 ```
+16. 坐标转换
+```javascript
+function initPosition(){
+	var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+	handler.setInputAction(function (movement) {
+		// 屏幕坐标（二维坐标）
+		var twoSpace = movement.position;
+		console.log("屏幕坐标（二维坐标）", twoSpace);
+		
+		// 二维坐标转世界坐标
+		var worldSpace  = viewer.scene.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
+		console.log("二维坐标——》世界坐标", worldSpace);
+		
+		// 世界坐标转地理坐标（弧度）
+		var geographySpace = viewer.scene.globe.ellipsoid.cartesianToCartographic(worldSpace);
+		console.log("世界坐标——》地理坐标（弧度）", geographySpace);
+		var geographySpace = Cesium.Cartographic.fromCartesian(worldSpace);
+		console.log("世界坐标——》地理坐标（弧度）", geographySpace);
+		
+		// 世界坐标转屏幕坐标
+		var twoSpace = Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, worldSpace);
+		console.log("世界坐标——》屏幕坐标", twoSpace);
+
+		// 二维屏幕坐标系到三维坐标系的转换
+		var threeSpace = viewer.scene.globe.pick(viewer.camera.getPickRay(twoSpace), viewer.scene);
+		console.log("二维坐标——》三维坐标", threeSpace);
+
+		// 三维坐标到地理坐标的转换
+		var geographySpace = viewer.scene.globe.ellipsoid.cartesianToCartographic(threeSpace);
+		console.log("三维坐标——》地标坐标（弧度）", geographySpace);
+		var geographySpace = Cesium.Cartographic.fromCartesian(threeSpace)
+		console.log("三维坐标——》地标坐标（弧度）", geographySpace);
+		 
+		// 地理坐标到经纬度坐标的转换
+		var longitudeAndLatitude = [geographySpace.longitude / Math.PI * 180, geographySpace.latitude / Math.PI * 180, geographySpace.height];
+		console.log("地标坐标（弧度）——》经纬度坐标", longitudeAndLatitude);
+		var longitude = Cesium.Math.toDegrees(geographySpace.longitude);
+		var latitude = Cesium.Math.toDegrees(geographySpace.latitude);
+		var height = geographySpace.height;
+		console.log("地标坐标（弧度）——》经纬度坐标：经度",longitude,"| 纬度",latitude,"| 高度",height);
+		console.log("地标坐标（弧度）——》经纬度坐标：经度",longitude.toFixed(3),"| 纬度",latitude.toFixed(3),"| 高度",height.toFixed(1));
+		
+		// 经纬度坐标转地理坐标（弧度）
+		var geographySpace = Cesium.Cartographic.fromDegrees(longitude, latitude, height);//单位：度，度，米
+		console.log("经纬度坐标——》地理坐标（弧度）", geographySpace);
+		 
+		// 经纬度坐标转世界坐标（先转换成弧度再转换）
+		var geographySpace = Cesium.Cartographic.fromDegrees(longitude, latitude, height);
+		var worldSpace = viewer.scene.globe.ellipsoid.cartographicToCartesian(geographySpace);
+		console.log("经纬度坐标——》世界坐标", worldSpace);
+		
+		// 经纬度转三维坐标
+		var threeSpace = Cesium.Cartesian3.fromDegrees(longitude, latitude, height);
+		console.log("经纬度坐标——》三维坐标", threeSpace);  
+	}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+}
+```
+17. 获取两点间的距离
+```javascript
+    getDistance(positions){
+        var distance = 0;
+        // position中的数据项为世界坐标
+        var point1cartographic = Cesium.Cartographic.fromCartesian(positions[0]);
+        var point2cartographic = Cesium.Cartographic.fromCartesian(positions[1]);
+        /**根据经纬度计算出距离**/
+        var geodesic = new Cesium.EllipsoidGeodesic();
+        geodesic.setEndPoints(point1cartographic, point2cartographic);
+        var s = geodesic.surfaceDistance;
+        //返回两点之间的距离
+        s = Math.sqrt(Math.pow(s, 2) + Math.pow(point2cartographic.height - point1cartographic.height, 2));
+        distance = distance + s;
+        return distance
+    }
+
+```
