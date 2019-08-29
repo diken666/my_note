@@ -315,3 +315,163 @@ function initPosition(){
     }
 
 ```
+18. 获取多线段的总距离和所围成多边形的面积
+```javascript
+	click(e){
+          // 屏幕坐标（二维坐标）
+          var twoSpace = e.position;
+          // console.log("二维坐标-->", twoSpace);
+
+          // 二维坐标转世界坐标
+          var worldSpace = this.state.viewer.camera.pickEllipsoid(e.position, this.state.viewer.scene.globe.ellipsoid);
+          // console.log("世界坐标-->", worldSpace);
+
+          // 世界坐标转地理坐标（弧度）
+          var geographySpace = this.state.viewer.scene.globe.ellipsoid.cartesianToCartographic(worldSpace);
+          // console.log("地理坐标（弧度）-->", geographySpace);
+
+          // 地理坐标转换为经纬度
+          var lat=Cesium.Math.toDegrees(geographySpace.latitude);
+          var lng=Cesium.Math.toDegrees(geographySpace.longitude);
+          // console.log("经纬度-->", lat, lng);
+
+          // 计算两点距离
+          var tempPoint = this.state.point;
+          tempPoint.push(worldSpace);
+
+          var tempPositionArr = this.state.positionArr;
+          tempPositionArr.push({lng, lat});
+          this.setState({
+              point: tempPoint,
+              positionArr: tempPositionArr
+          },()=>{
+              // 画点
+              this.state.viewer.entities.add({
+                  position: Cesium.Cartesian3.fromDegrees(lng, lat),
+                  ellipse : {
+                      semiMinorAxis : 10.0,
+                      semiMajorAxis : 10.0,
+                      material : Cesium.Color.BLUE.withAlpha(1)
+                  }
+              });
+
+              // 画线
+              if(tempPositionArr.length > 1) {
+                  // 如果位置数组不为空，开始画线
+                  var lastPointLat = tempPositionArr[tempPositionArr.length-2].lat;
+                  var lastPointLng = tempPositionArr[tempPositionArr.length-2].lng;
+
+                  this.state.viewer.entities.add({
+                      name: 'Red line on the surface',
+                      polyline: {
+                          positions: Cesium.Cartesian3.fromDegreesArray([lastPointLng, lastPointLat, lng, lat]),
+                          width: 5,
+                          material: Cesium.Color.RED
+                      }
+                  });
+
+              }
+              // 画面
+              var tempArr = [];
+              for(let i=0; i<this.state.positionArr.length; i++){
+                  var positionArr = this.state.positionArr;
+                  tempArr.push(positionArr[i].lng);
+                  tempArr.push(positionArr[i].lat);
+              }
+              if(tempArr.length !== 0){
+                  this.state.viewer.entities.add({
+                      name : 'yellow polygon on surface',
+                      polygon : {
+                          hierarchy : Cesium.Cartesian3.fromDegreesArray([...tempArr]),
+                          material : Cesium.Color.YELLOW
+                      }
+                  });
+              }
+
+              // 计算当前距离和面积
+              if(this.state.point.length > 1){
+                  if(this.state.point.length === 2){
+                      this.setState({
+                          distance: this.getDistance(this.state.point)
+                      }, ()=>{
+                          console.log("总距离为-->", this.state.distance);
+                          console.log("总面积为-->", this.state.area);
+                      });
+                  }else{
+                      this.setState({
+                          distance: this.getDistance(this.state.point),
+                          area: this.getArea(this.state.positionArr)
+                      }, ()=>{
+                          console.log("总距离为-->", this.state.distance);
+                          console.log("总面积为-->", this.state.area);
+                      })
+                  }
+              }
+
+        });
+
+    }
+
+    // 获得总的线段距离
+    getDistance(positions){
+        var distance = 0;
+        var geodesic = new Cesium.EllipsoidGeodesic();
+        for(let i=0; i<positions.length-1; i++){
+            var point1cartographic = Cesium.Cartographic.fromCartesian(positions[i]);
+            var point2cartographic = Cesium.Cartographic.fromCartesian(positions[i+1]);
+            geodesic.setEndPoints(point1cartographic, point2cartographic);
+            var s = geodesic.surfaceDistance;
+            //返回两点之间的距离
+            s = Math.sqrt(Math.pow(s, 2) + Math.pow(point2cartographic.height - point1cartographic.height, 2));
+            distance = distance + s;
+        }
+        return distance
+    }
+    // 计算多边形面积
+    getArea(points) {
+        var res = 0;
+        //拆分三角曲面
+        if(points.length >=3){
+            for(let i=2; i<this.state.point.length; i++){
+                var angle = this.Angle(this.state.positionArr[0], this.state.positionArr[i-1], this.state.positionArr[i]);
+                res += this.getTriangleArea(angle, [this.state.point[0], this.state.point[i-1], this.state.point[2]]);
+            }
+        }
+
+        return res;
+    }
+
+    // 计算三角形的面积
+    getTriangleArea(angle, pointArr){
+        var dis_temp1 = this.getDistance([pointArr[0], pointArr[1]]);
+        var dis_temp2 = this.getDistance([pointArr[1], pointArr[2]]);
+        return dis_temp1 * dis_temp2 * Math.abs(Math.sin(angle * Math.PI / 180)) / 2;
+    }
+
+    // 获得线p2p1与p2p3的夹角（数值为角度值，如果要转化为弧度 还需要 * Math.PI / 180）
+    Angle(p1, p2, p3) {
+        var bearing21 = this.Bearing(p2, p1);
+        var bearing23 = this.Bearing(p2, p3);
+        var angle = bearing21 - bearing23;
+        if (angle < 0) {
+            angle += 360;
+        }
+        return angle;
+    }
+
+    Bearing(from, to) {
+        var radiansPerDegree = Math.PI / 180.0; //角度转化为弧度(rad)
+        var degreesPerRadian = 180.0 / Math.PI; //弧度转化为角度
+        var lat1 = from.lat * radiansPerDegree;
+        var lng1 = from.lng * radiansPerDegree;
+        var lat2 = to.lat * radiansPerDegree;
+        var lng2 = to.lng * radiansPerDegree;
+        var angle = -Math.atan2(Math.sin(lng1 - lng2) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng1 - lng2));
+        if (angle < 0) {
+            angle += Math.PI * 2.0;
+        }
+        angle = angle * degreesPerRadian;//角度
+        console.log("bearing-->", angle)
+        return angle;
+    }
+```
