@@ -44,3 +44,17 @@
       }
   }
 ```
+2. 只读属性，一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用 readonly来指定只读属性:
+```javascript
+  interface: Point {
+    readonly x: number;
+    readonly y: string;
+  }
+  let p1: Point = { x: 10, y: 20 };
+  p1.x = 5; // error!
+  
+  let a: number[] = [1, 2, 3, 4];
+  let ro: ReadonlyArray<number> = a;
+  ro[0] = 12; // error!
+```
+注意区分readonly和const的区别，readonly做为属性使用，const作为变量使用。
