@@ -475,3 +475,7 @@ function initPosition(){
         return angle;
     }
 ```
+19. 选中特定实体：
+```javascript
+var aaa = this.state.viewer.scene.pick(e.position);
+```
