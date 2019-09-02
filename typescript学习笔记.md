@@ -56,8 +56,9 @@
   let a: number[] = [1, 2, 3, 4];
   let ro: ReadonlyArray<number> = a;
   ro[0] = 12; // error!
+  
+  // 注意区分readonly和const的区别，readonly做为属性使用，const作为变量使用。
 ```
-注意区分readonly和const的区别，readonly做为属性使用，const作为变量使用。
 3. typescript在React项目中使用时
 ```typescript
   interface app{
