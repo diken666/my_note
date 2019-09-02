@@ -58,3 +58,36 @@
   ro[0] = 12; // error!
 ```
 注意区分readonly和const的区别，readonly做为属性使用，const作为变量使用。
+3. typescript在React项目中使用时
+```typescript
+  interface app{
+    num: number
+  }
+  interface btn{
+    add: any
+  }
+  class App extends React.Component<{}, app>{
+    constructor(props){
+      super(props);
+      this.state = {
+        num: 0
+      }
+      this.add = this.add.bind(this)
+    }
+    add(){
+      this.setState({
+        num: this.state.num +1
+      })
+    }
+    render(){
+      return (<Btn add={this.add}/>)
+    }
+  }
+  class Btn extends React.Component<add>{
+    render(){
+      return (
+        <button onClick={this.props.add}></button>
+       )
+    }
+  }
+```
