@@ -479,3 +479,45 @@ function initPosition(){
 ```javascript
 var aaa = this.state.viewer.scene.pick(e.position);
 ```
+20. 加载geojson数据
+```typescript
+    var promise = Cesium.GeoJsonDataSource.load('./xzq.geojson');
+    promise.then( (data: any) =>{
+      viewer.dataSources.add(data);
+      viewer.cesiumWidget.screenSpaceEventHandler.setInputAction(this.move, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+      viewer.cesiumWidget.screenSpaceEventHandler.setInputAction(this.click, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+      this.setState({
+        viewer
+      });
+      viewer.flyTo(promise)
+    });
+```
+21. 为添加的geojson添加悬浮事件
+```typescript
+  move(movement:any ):void {
+    // console.log(movement)
+    var startPickFeature = this.state.viewer.scene.pick(movement.startPosition);
+    var endPickFeature = this.state.viewer.scene.pick(movement.endPosition);
+    if(Cesium.defined(startPickFeature) && Cesium.defined(endPickFeature)){
+      if(startPickFeature.id._id !== endPickFeature.id._id){
+        startPickFeature.id.polygon.material = Cesium.Color.YELLOW.withAlpha(.4);
+        endPickFeature.id.polygon.material = Cesium.Color.BLUE.withAlpha(1);
+      }
+    }
+    else if(!Cesium.defined(startPickFeature) && Cesium.defined(endPickFeature)){
+      endPickFeature.id.polygon.material = Cesium.Color.BLUE.withAlpha(1);
+    }
+    else if(Cesium.defined(startPickFeature) && !Cesium.defined(endPickFeature)){
+      startPickFeature.id.polygon.material = Cesium.Color.YELLOW.withAlpha(.4);
+    }
+  }
+```
+22. 获取geojson带的数据， `pickFeature.id.properties.[属性名]._value`
+```typescript
+  click(e: any){
+    var pickFeature = this.state.viewer.scene.pick(e.position);
+    if(Cesium.defined(pickFeature)){
+      console.log(pickFeature.id.properties.Shape_Leng._value)
+    }
+  }
+```
