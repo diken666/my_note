@@ -1,4 +1,4 @@
-# vue复习笔记
+# vue学习笔记
 
 1. 自定义指令： Vue.directive
 ```vue
