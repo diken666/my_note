@@ -521,3 +521,31 @@ var aaa = this.state.viewer.scene.pick(e.position);
     }
   }
 ```
+23. cesium中添加天地图
+```javascript
+	// 添加天地图
+        viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+            url: "http://{s}.tianditu.com/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=0f84da9fd48038ea3bd8de15ff9fb4c2",
+            subdomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7', ],
+            maximumLevel: 18,
+            layer: "tdtVecBasicLayer",
+            style: "default",
+            format: "image/jpeg",
+            TileMatrixLables: ['1', '2', '3', '4', '5', '6', '7'],
+            tileMatrixSetID: "GoogleMapsCompatible",
+            show: true
+        }));
+
+        // 天地图矢量图标注
+        viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+            url: "http://{s}.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=0f84da9fd48038ea3bd8de15ff9fb4c2",
+            subdomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7', ],
+            maximumLevel: 18,
+            layer: "tdtAnnoLayer",
+            style: "default",
+            format: "image/jpeg",
+            tileMatrixSetID: "GoogleMapsCompatible",
+            TileMatrixLables: ['1', '2', '3', '4', '5', '6', '7'],
+            show: true
+        }));
+```
