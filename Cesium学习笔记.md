@@ -549,3 +549,18 @@ var aaa = this.state.viewer.scene.pick(e.position);
             show: true
         }));
 ```
+24. 监听cesium camera的朝向问题，添加指南针效果
+```javascript
+	// 指南针监控和调整
+	viewer.scene.postRender.addEventListener(()=>{
+	    if(this.state.cameraHeading !== viewer.camera.heading){
+		let compass = document.getElementById('compass');
+		let degrees = Cesium.Math.toDegrees(viewer.camera.heading);
+		this.setState({
+		    cameraHeading: viewer.camera.heading
+		}, ()=>{
+		    compass.style.transform = `rotate(${360 - degrees}deg)`;
+		})
+	    }
+	});
+```
