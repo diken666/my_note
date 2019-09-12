@@ -566,5 +566,7 @@ viewer.scene.postRender.addEventListener(()=>{
 ```
 25. 获取鼠标点击位置的世界坐标
 ```javascript
-let nowPosition = viewer.scene.pickPosition(e.position);
+click(e){
+  let nowPosition = viewer.scene.pickPosition(e.position);
+}
 ```
