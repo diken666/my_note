@@ -1,52 +1,51 @@
-
-// Cesium关于点线面的操作
-
-import Cesium from 'cesium/Cesium'
+import Cesium from 'Cesium';
 
 let obj = {
     // 画点
-    addPoint(viewer, lng, lat){
+    addPoint(viewer, nowPosition){
        return  viewer.entities.add({
-            name: 'blue point',
-            position: Cesium.Cartesian3.fromDegrees(lng, lat),
-            ellipse : {
-                semiMinorAxis : 5.0,
-                semiMajorAxis : 5.0,
-                material : Cesium.Color.BLUE.withAlpha(1)
-            }
+           position : nowPosition,
+           point : {
+               pixelSize : 8,
+               color : Cesium.Color.DODGERBLUE,
+               outlineColor : Cesium.Color.WHITE,
+               outlineWidth : 2
+           }
         });
     },
     // 画线
-    // 参数 { 经纬度， 世界坐标}
-    addLine(viewer, arr, positionArr){
-        if(arr.length>1){
-            let prevPointLat = arr[arr.length-2].lat;
-            let prevPointLng = arr[arr.length-2].lng;
-            let lastPointLat = arr[arr.length-1].lat;
-            let lastPointLng = arr[arr.length-1].lng;
+    // 参数 { 世界坐标}
+    addLine(viewer,  positionArr){
+        if(positionArr.length>1){
             let length = this.getDistance(positionArr.slice(-2));
-            let labelLng = prevPointLng + (lastPointLng - prevPointLng) / 2;
-            let labelLat = prevPointLat + (lastPointLat - prevPointLat) / 2;
+            let lastPosition = positionArr[positionArr.length-2];
+            let nowPosition = positionArr[positionArr.length-1];
+            let centerPosition = {
+                x: lastPosition.x + (nowPosition.x - lastPosition.x) / 2,
+                y: lastPosition.y + (nowPosition.y - lastPosition.y) / 2,
+                z: lastPosition.z + (nowPosition.z - lastPosition.z) / 2,
+            };
             return [
                     this.getDistance(positionArr),
                     viewer.entities.add({
-                        position: Cesium.Cartesian3.fromDegrees(labelLng, labelLat ),
+                        position: centerPosition,
                         label: {
                             text : `${parseInt(length, 10)}米`,
                             font : '14pt monospace',
+                            showBackground: true,
+                            backgroundColor: Cesium.Color.BLACK.withAlpha(.5),
                             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
                             outlineWidth : 2,
                             verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
                             pixelOffset : new Cesium.Cartesian2(0, -9),
-                            // backgroundColor: Cesium.Color.fromRgba('rgba(0,0,0,.7)')
                         }
                     }),
                     viewer.entities.add({
                         name: 'Red line',
                         polyline: {
-                            positions: Cesium.Cartesian3.fromDegreesArray([prevPointLng, prevPointLat, lastPointLng, lastPointLat]),
-                            width: 5,
-                            material: Cesium.Color.RED,
+                            positions: [lastPosition, nowPosition],
+                            width: 2,
+                            material: Cesium.Color.DODGERBLUE ,
                         },
                     })
                 ]
@@ -59,16 +58,20 @@ let obj = {
         for(let i=0; i<pointArr.length; i++){
             tempArr.push(pointArr[i].lng);
             tempArr.push(pointArr[i].lat);
+            tempArr.push(pointArr[i].height);
         }
 
+        // console.log(Cesium.Cartesian3.fromDegreesArray([...tempArr]))
+        console.log(tempArr)
         if(tempArr.length !== 0){
           return [
               this.getArea(pointArr, positionArr),
               viewer.entities.add({
                   name : 'yellow polygon',
                   polygon : {
-                      hierarchy : Cesium.Cartesian3.fromDegreesArray([...tempArr]),
-                      material : Cesium.Color.YELLOW
+                      hierarchy : Cesium.Cartesian3.fromDegreesArrayHeights([...tempArr]),
+                      material : Cesium.Color.DODGERBLUE.withAlpha(.6),
+                      perPositionHeight : true
                   }
               })
           ]
