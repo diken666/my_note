@@ -195,6 +195,33 @@ move(movement){
         })
     }
     }
+    
+// 当在地图上拖动地图时，经过的图标不会变回原样，改进
+mouseMove(e){
+        if(this.state.viewer.scene){
+            let endPickFeature = this.state.viewer.scene.pick(e.endPosition);
+            let groundSceneEntities = this.state.groundSceneEntities;
+            let airSceneEntities = this.state.airSceneEntities;
+            let landSceneEntities = this.state.landSceneEntities;
+            let allEntities = groundSceneEntities.concat(airSceneEntities).concat(landSceneEntities);
+            for (let i=0; i<allEntities.length; i++){
+                allEntities[i].label.scale = 1;
+                allEntities[i].billboard.scale = 1;
+                document.body.style.cursor = 'default';
+            }
+            if(Cesium.defined(endPickFeature)){
+                if( endPickFeature.id){
+                    if(endPickFeature.id.label && endPickFeature.id.billboard){
+                        endPickFeature.id.label.scale = 1.5;
+                        endPickFeature.id.billboard.scale = 1.5;
+                        document.body.style.cursor = 'pointer';
+                    }
+                }
+            }
+        }
+
+    }
+
 ```
 14. 添加倾斜模型
 ```javascript
