@@ -597,3 +597,19 @@ click(e){
   let nowPosition = viewer.scene.pickPosition(e.position);
 }
 ```
+25. 指南针效果
+```javascript
+// 初始化相机方向
+    initHeading(){
+        let pitch = this.state.viewer.camera.pitch;
+        let roll = this.state.viewer.camera.roll;
+        this.state.viewer.camera.flyTo({
+            destination: this.state.viewer.camera.position,
+            orientation: {
+                heading: Cesium.Math.toRadians(0),
+                pitch : pitch,
+                roll: roll,
+            },
+        });
+    }
+```
