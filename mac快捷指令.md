@@ -6,3 +6,4 @@
 4. 捕捉屏幕 ` command + shift + 5`
 5. 关闭当前小窗口 `command + w`
 6. 预览文件 `空格`
+7. 窗口全屏 ` command + control + f`
