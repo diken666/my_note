@@ -5,3 +5,4 @@
 3. 截屏 ` command + shift + 4`
 4. 捕捉屏幕 ` command + shift + 5`
 5. 关闭当前小窗口 `command + w`
+6. 预览文件 `空格`
