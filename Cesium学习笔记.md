@@ -613,3 +613,71 @@ click(e){
         });
     }
 ```
+26. 水系加载，预留水系加载的功能，代码如下：
+```javascript
+const FS = `varying vec3 v_positionMC;
+varying vec3 v_positionEC;
+varying vec2 v_st;
+void main()
+{
+	czm_materialInput materialInput;
+	vec3 normalEC = normalize(czm_normal3D * czm_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));
+	#ifdef FACE_FORWARD
+	normalEC = faceforward(normalEC, vec3(0.0, 0.0, 1.0), -normalEC);
+	#endif
+	materialInput.s = v_st.s;
+	materialInput.st = v_st;
+	materialInput.str = vec3(v_st, 0.0);
+	materialInput.normalEC = normalEC;
+	materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(v_positionMC, materialInput.normalEC);
+	vec3 positionToEyeEC = -v_positionEC;
+	materialInput.positionToEyeEC = positionToEyeEC;
+	czm_material material = czm_getMaterial(materialInput);
+	#ifdef FLAT
+	gl_FragColor = vec4(material.diffuse + material.emission, material.alpha);
+	#else
+	gl_FragColor = czm_phong(normalize(positionToEyeEC), material);
+	gl_FragColor.a=0.5;
+	#endif
+}
+	`;
+
+Cesium.Resource.fetch('river.geojson').then((res) => {
+    let coor = JSON.parse(res).features[0].geometry.coordinates;
+    const river_coor = Cesium.Cartesian3.fromDegreesArrayHeights(
+        coor.flat(Infinity)
+    );
+
+    let polygon = new Cesium.PolygonGeometry({
+        polygonHierarchy: new Cesium.PolygonHierarchy(river_coor),
+        height: 2.1
+    });
+
+    let instance = new Cesium.GeometryInstance({
+        geometry: polygon
+    });
+
+    let primitive = new Cesium.Primitive({
+        show: true, // 默认隐藏
+        allowPicking: true,
+        geometryInstances: instance,
+        appearance: new Cesium.EllipsoidSurfaceAppearance({
+            material: new Cesium.Material({
+                fabric: {
+                    type: 'Water',
+                    uniforms: {
+                        // normalMap: './Cesium/Assets/Textures/waterNormals.jpg',
+                        frequency: 1000.0,
+                        animationSpeed: 0.015,
+                        amplitude: 10.0,
+                        baseWaterColor: Cesium.Color.fromBytes(10, 88, 75) //Cesium.Color.fromBytes(52, 166, 146)
+                    }
+                }
+            }),
+            fragmentShaderSource: FS //重写shader，修改水面的透明度
+        })
+    });
+
+    viewer.scene.primitives.add(primitive);
+});
+```
