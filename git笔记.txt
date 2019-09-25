@@ -23,20 +23,18 @@ git diff [本地库中历史版本][文件名]
 
 git branch -v  查看分支
 git branch [name] 创建分支
-it checkout -b branchName  新建分支并调转到分支branchName
+git checkout -b branchName  新建分支并调转到分支branchName
 ===
 git branch branchName
 + git checkout branchName
 
-git merge branchName 合并分支内容
+git merge [分支名] 合并分支（需要先切换到接收修改的分支）
 git branch -d branchName 删除本地分支
 git push -d origin branchName 删除远程仓库的分支
 git commit -a -m "msg" 分支提交  === git add .   +  git commit - m "msg"
 
 git  fetch origin master 
 git checkout [name] 切换分支
-
-git merge [分支名] 合并分支（需要先切换到接收修改的分支）
 
 git remote add [name] [link]
 git remote -v
