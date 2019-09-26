@@ -1,4 +1,6 @@
-# JS,ES复习
+# JS,ES6复习
+
+### 原型和原型链
 
 1. 原型和原型链
     // 博客链接：https://www.cnblogs.com/libin-1/p/5820550.html
@@ -51,7 +53,10 @@ let foo = 2;
  let a = '123'
  console.log(a === window.a); // false
  ```
- 6. 解构赋值时：ES6内部使用===判断一个位置是否有值，如果一个成员不严格等于undefined，默认值是不会生效的。
+ 
+ ### 解构赋值
+ 
+ 1. 解构赋值时：ES6内部使用===判断一个位置是否有值，如果一个成员不严格等于undefined，默认值是不会生效的。
  ```javascript
  let [x = 1] = [undefined];
  x // 1
@@ -65,7 +70,10 @@ let foo = 2;
  let {toString: b} = false;
  console.log(b === Boolean.prototype.toString); //true
 ``` 
-7. Symbol: 用来表示独一无二的值，symbol函数前不能使用new命令，否则会报错，因为生成的symbol是一个原始类型的值，不是对象，它是一种类似于字符串的数据类型。symbol值可以转化为字符串和布尔值，但是不能转化为数值，且不能与其他类型的值进行运算，否则会报错。
+
+### Symbol
+
+1. Symbol: 用来表示独一无二的值，symbol函数前不能使用new命令，否则会报错，因为生成的symbol是一个原始类型的值，不是对象，它是一种类似于字符串的数据类型。symbol值可以转化为字符串和布尔值，但是不能转化为数值，且不能与其他类型的值进行运算，否则会报错。
 ```javascript
 var s = Symbol('s');
 String(s); // 'Symbol(s)'
@@ -78,15 +86,39 @@ var obj = {
     [s]: '111'   // 如果不用[]，则代表键名是字符串s
 }
 ```
-8. Set：类似于数组，但是成员的值都是唯一的，没有重复。
+2. 如果 Symbol 的参数是一个对象，就会调用该对象的toString方法，将其转为字符串，然后才生成一个 Symbol 值
+```javascript
+const obj = {
+    toString(){
+        return "123"
+    }
+}
+let s = Symbol(obj);
+
+s // Symbol(123)
+```
+3. Symbol函数中的参数是对当前Symbol值的描述，因此参数相同的Symbol，返回的值也是不相同的
+```javascript
+let s1 = Symbol(1);
+let s2 = Symbol(2);
+
+s1 === s2;  // false
+```
+
+### Set和Map
+
+1. Set：类似于数组，但是成员的值都是唯一的，没有重复。
 ```javascript
 var a = new Set([1, 1, 2, 3]);
 a // set [1, 2, 3]
 ```
 weakSet：与set结构类似，但是有两点不同，1：weakSet的成员只能是对象，而不能是其他类型的值 2：weakSet中的对象都是弱引用，及垃圾回收机制不考虑对该对象的引用。
-9. Map：类似于对象，也是键值对的集合，但是键的范围不限于字符串，map结构的供了‘值-值’的对应。
+2. Map：类似于对象，也是键值对的集合，但是键的范围不限于字符串，map结构的供了‘值-值’的对应。
    weakMap：与Map的区别，1：weakMap只接受对象作为健名（null除外）2：weakMap的键名所指向的对象不计入垃圾回收机制。
-10. Proxy：代理，用于修改某些操作的默认行为。
+   
+### Proxy 和 generator
+
+1. Proxy：代理，用于修改某些操作的默认行为。
 ```javascript
 var obj = new Proxy({}, {
   get: function(target, key, receiver){
@@ -101,7 +133,7 @@ var obj = new Proxy({}, {
 obj.a = 1; // set: 1
 b = obj.a; // get: a
 ```
-11. generator: 是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。
+2. generator: 是ES6标准引入的新的数据类型。一个generator看上去像一个函数，但可以返回多次。
 ```javascript
 function* foo(x) {
     yield x + 1;
@@ -113,7 +145,9 @@ fo.next(); // Object { value: 3, done: false }
 fo.next(); // Object { value: 4, done: false }
 fo.next(); // Object { value: 5, done: false }
 ```
-12. class：ES6中的class可以看做是一个语法糖，它的绝大部分功能，ES5也能做到。
+### class
+
+1. class：ES6中的class可以看做是一个语法糖，它的绝大部分功能，ES5也能做到。
     (1) 类的数据类型是函数，类本身就指向它的构造函数：
     ```javascript
     class Point {}
