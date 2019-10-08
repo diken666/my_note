@@ -191,6 +191,27 @@ fo.next(); // Object { value: 5, done: false }
     B.__proto__ === A; //true
     B.prototype.__proto__ === A.prototype; //true
     ```
+### module.export和exports，export和export default的区别
+  1. module.export和exports的区别:
+  ```javascript
+    // module变量代表当前模块。这个变量是一个对象，module对象会创建一个叫exports的属性，这个属性的默认值是一个空的对象
+    module.exports = {}
     
-    
+    module.exports.name = "aaa";
+    module.exports.sayHello = function () {};
+    // 上面两段代码相当于
+    {
+        name: "aaa",
+        sayHello: function () {}
+    }
+    // require方法用于加载模块
+    // Node为每个模块提供一个exports变量，指向module.exports。可以通俗的理解为：
+    // var exports = module.exports;
+    // 两个是相等的关系，但又不是绝对相当的关系
+    // module.exports可以直接导出一个匿名函数或者一个值，但是exports是不可以的，因为这样等于切断了exports与module.exports的联系。
+  ```
+  2. export和export default的区别：
+  - export default在一个模块中只能有一个，当然也可以没有。export在一个模块中可以有多个。
+  - export defalut的对象、变量、函数、类，可以没有名字。export的必须有名字。
+  - export default对应的import和export有所区别
 
