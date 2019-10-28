@@ -681,3 +681,10 @@ Cesium.Resource.fetch('river.geojson').then((res) => {
     viewer.scene.primitives.add(primitive);
 });
 ```
+27. Cesium获取鼠标点击位置的两种形式
+```javascript
+// 地球表面
+let position = viewer.scene.camera.pickEllipsoid(e.position, viewer.scene.globe.ellipsoid);
+// 真实点击位置
+let position = viewer.scene.pickPosition(e.position);
+```
