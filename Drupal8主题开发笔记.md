@@ -28,3 +28,21 @@
   - `help`
   - `breadcrumb`
   - 两个隐藏的 `page_top`  `page_bottom`
+
+4. Breakpoints exercise
+  - Extend -> Responsive Image -> checkout and install
+  - Configuration -> Responsive Image style -> Add responsive image style -> Breakpoint group中选择自己的主题 -> Fallback image style选择 Thumbnail(100*100) -> save
+
+5. Template Hierarchy(模版等级)  低到高
+ - field.html.twig
+ - node.html.twig
+ - region.html.twig
+ - page.html.twig
+ - html.html.twig
+ 
+6. 添加自定义region
+ - 在.info.yml文件中声明region
+ - 在page.html.twig中渲染
+ - 添加css
+ - 清除缓存
+ - 检查 Structure -> Block layout
