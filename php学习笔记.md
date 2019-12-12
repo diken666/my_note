@@ -64,5 +64,48 @@
 ```
 4. 查找字符串：
  ```php
-   // stripos： 查找字符串某部分首次出现的位置
+   // stripos： 计算字符串某部分首次出现的位置（大小写不敏感）
+   // strpos： 。。。 （大小写敏感）
+   $str = 'hello world'
+   $findS = 'world'
+   stripos($str, $findS);
+   strpos($str, $findS);
+   
+   // strripos： 计算字符串在目标字符串中最后一次出现的位置（大小写不敏感）
+   // strrpos： 。。。（大小写敏感）
+   strripos($str, $findS);
+   strrpos($str, $findS);
+   
+   // str_ireplace: 替换字符串（大小写不敏感）
+   // str_replace: 
+   $str = 'hello world' 
+   $replace = 'hi'
+   $search = 'hello'
+   str_replace($search, $replace, $str)
+   
+   //substr：截取字符串
+   substr('abcdef', 1);  // bcdef
+   substr('abcdef', -2); // ef
+   
+   // trim：除去特殊字符
+   // 默认除去的特殊字符有： " "普通空格符、 "\t"制表符、 "\n"换行符、 "\r"回车符、 "\0"空字节符、 "\x0B"垂直制表符
+   $str = "\n\n123"
+   trim($str);  //123
+   trim($str, '1'); //23
+   
+   //addslashes：转义字符串
+   //stripslashes：还原字符串
+   $str = " I'm tom "
+   addslashes($str);
+   stripslashes($str)
+   
+   // str_repeat： 重复字符串
+   str_repeat("123", 10);
+   
+   // str_shuffle： 打乱字符串
+   str_shuffle('123')
+   
+   // explode： 字符串分割
+   explode("hello world" , " ")
+   
  ```
