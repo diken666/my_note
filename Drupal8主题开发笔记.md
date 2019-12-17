@@ -4,6 +4,7 @@
 
 ### 修改teaser：Structure -> Content types -> xxx Manage display -> Teaser
 ### 修改上一页下一页显示： Structure -> Views -> Pager -> Mini pager, xxx items
+### 添加自定义日期格式：Configuration -> Date and time formats -> add format
 
 ### 记录
 
