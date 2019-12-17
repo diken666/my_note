@@ -2,6 +2,10 @@
 
 安装的模块：[pathauto](https://www.drupal.org/project/pathauto) [devel](https://www.drupal.org/project/devel)
 
+### 修改teaser：Structure -> Content types -> xxx Manage display -> Teaser
+
+### 记录
+
 1. 自定义主题的步骤：
   - 在网站根目录的`/themes`文件夹下创建一个文件夹，命名为mytheme。
   - 在`themes/mytheme`文件夹下创建css，images，js，templates文件夹，分别用于放置样式表，图片，js和模版文件。
