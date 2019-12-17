@@ -3,6 +3,7 @@
 安装的模块：[pathauto](https://www.drupal.org/project/pathauto) [devel](https://www.drupal.org/project/devel)
 
 ### 修改teaser：Structure -> Content types -> xxx Manage display -> Teaser
+### 修改上一页下一页显示： Structure -> Views -> Pager -> Mini pager, xxx items
 
 ### 记录
 
