@@ -11,3 +11,10 @@ if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess'] = FALSE;
 ```
+3. drupal的结构：
+  - html.html.twig
+  - page.html.twig
+  - region.html.twig
+  - block.html.twig
+  - node.html.twig
+  - field.html.twig
