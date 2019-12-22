@@ -8,3 +8,5 @@
 6. 预览文件 `空格`
 7. 窗口全屏 ` command + control + f`
 8. Chrome窗口快速切换 ` command + option + ->/<-`或者`command + 数字`
+9. 查看指定端口信息 `lsof -i:端口号`
+10. 关闭指定端口应用 `kill -9 PID号`
