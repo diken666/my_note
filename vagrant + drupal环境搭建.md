@@ -7,3 +7,6 @@
 5. 运行 `vagrant init ubuntu_trusty64`， 过程会在文件夹中生成一个`Vagrantfile`文件
 6. `vagrant up --provider=virtualbox` 注意，这里我的vagrant版本是2.2.6，virtualbox版本为6.1，并不能使用，需要virtualbox版本为（4.0, 4.1, 4.2, 4.3, 5.0, 5.1, 5.2, 6.0）
 vagrant init ubuntu_trusty64
+7. 配置vagrantfile文件
+8. sudo apt update && apt upgrade
+9. apt-get install apache2
