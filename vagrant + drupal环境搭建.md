@@ -11,7 +11,7 @@ vagrant init ubuntu_trusty64
 7. 配置vagrantfile文件
 
 ### 安装apache2
-1. `sudo apt-get install apache2`
+1. `sudo apt-get install apache2`，[参考链接](https://blog.csdn.net/qq_37264323/article/details/90586239)
 ```
 查看状态： service apache2 status/start/stop/restart
 Web目录： /var/www
