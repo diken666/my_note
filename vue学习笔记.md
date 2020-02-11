@@ -86,6 +86,7 @@ Vue.component('name', {
 ```
 7. 父子组件通信
 ```javascript
+// 父组件向子组件通信
 var Child = {
   template: ' father msg: {{ msg }} ',
   props: ['msg']
@@ -99,5 +100,30 @@ Vue.component('father', {
   components: { child },
   template: " <Child :msg='msg'> "
 })
+
+// 子组件向父组件通信
+var Child = {
+  data(){
+    return {
+    	value: ''
+    }
+  },
+  template: ' <input v-model="value" @input="valueChange(value)"/> ',
+  methods: {
+    valueChange(data) {
+      this.$emit('fuc', data)
+    }
+  }
+}
+
+var Father = {
+  conponents: { Child },
+  template: ' <Child @fuc='getMsg' > ',
+  methods: {
+    getMsg(data) {
+      console.log(data)
+    }
+  }
+}
 ```
 	
