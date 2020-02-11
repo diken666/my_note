@@ -84,4 +84,20 @@ Vue.component('name', {
   tempalete: '<div>123</div>'
 });
 ```
+7. 父子组件通信
+```javascript
+var Child = {
+  template: ' father msg: {{ msg }} ',
+  props: ['msg']
+}
+Vue.component('father', {
+  data() {
+    return {
+  	msg: 'come from father'
+    }
+  }
+  components: { child },
+  template: " <Child :msg='msg'> "
+})
+```
 	
