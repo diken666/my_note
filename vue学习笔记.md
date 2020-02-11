@@ -78,4 +78,10 @@ new Vue({
 })
 ```
 
+6. 全局注册组件
+```javascript
+Vue.component('name', {
+  tempalete: '<div>123</div>'
+});
+```
 	
