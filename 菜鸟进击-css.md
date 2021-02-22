@@ -179,5 +179,5 @@ div {
 > 1. link是HTML标签，@import是css提供的
 > 2. 页面加载时，link引入的样式同步加载，@import引入的样式需等加载完成后再加载
 > 3. link没有兼容性，@import不兼容ie5以下
-> 
+> 4. link标签js可引入，@import js不能引入
 

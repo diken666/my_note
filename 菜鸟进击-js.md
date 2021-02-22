@@ -722,3 +722,35 @@ function getTreeDepth(el) {
   }
 }
 ```
+
+38. 浏览器监听复制事件
+```html
+<p id="txt">123123</p>
+```
+```js
+document.getElementById("txt").addEventListener("copy", () => {
+  console.log("copy")
+})
+```
+
+39. 获取两个日期中的有效日期，如`2020-1-1`到`2020-1-3`，得到之前的日期（包括起始位置）
+```js
+function getRangeDate(start, end) {
+  let startDate = new Date(start).getTime()
+  let endDate = new Date(end).getTime()
+  let oneDayMs = 24 * 60 * 60 * 1000
+  let res = []
+  if (startDate > endDate) return res
+  while(startDate <= endDate) {
+    let date = new Date(startDate)
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    res.push(`${year}-${month}-${day}`)
+    startDate += oneDayMs
+  }
+  return res
+}
+```
+
+
