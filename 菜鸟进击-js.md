@@ -93,20 +93,20 @@ test() // 3
 > 1. 防抖：n秒内函数只会执行一次，如果n秒内再次触发，则重新计算时间
 > > 思路：每次事件触发事件就取消之前的延时调用
 > ```js
-> function debounce(fn) {
+> function debounce(fn, delay) {
 >   let timeout = null;
 >   return function() {
 >     clearTimeout(timeout);
 >     timeout = setTimeout(() => {
 >       fn.apply(this, arguments)
->     }, 500) 
+>     }, delay) 
 >   }
 > }
 > ```
 > 2. 节流：n秒内只会触发一次，节流会稀释函数的执行频率
 > > 思路：每次触发事件时，都判断当前是否有等待执行的延迟函数
 > ```js
-> function throttle(fn) {
+> function throttle(fn, delay) {
 >   let canRun = true;
 >   return function () {
 >     if (!canRun) return;
@@ -114,7 +114,7 @@ test() // 3
 >     setTimeout(() => {
 >       fn.apply(this, arguments)
 >       canRun = true
->     }, 500)
+>     }, dealy)
 >   }
 > }
 > ```
@@ -752,5 +752,47 @@ function getRangeDate(start, end) {
   return res
 }
 ```
+
+40. 关于箭头函数
+> 1. 箭头函数不能作为构造函数
+> 2. 没有自己的this值，this值从外部继承
+> 3. 箭头函数没有arguments
+```js
+var Array = (a) => {
+  this.name = a
+}
+var arr = new Array(123) // 报错， Array不是构造函数
+
+var Test = () => {
+  console.log(arguments) 
+}
+Test() // 会报arguments未定义的错误
+
+```
+
+41. 关于Promise的链式调用使用实例，“有两个按钮，按照点击顺序返回异步请求”
+```html
+<button onClick=btnClick("a")>a</button>
+<button onClick=btnClick("b")>b</button>
+<p id="txt"></p>
+<script>
+let txt = document.getElementById("txt")
+let str = ""
+let pro = new Promise(resolve => resolve())
+function btnClick(type) {
+  pro = pro.then(() => {
+    let time = type === "a" ? 1000 : 2000
+    return new Promise(resolve => {
+      setTimeout(() => {
+        str += type
+        txt.innerText = str
+        resolve()
+      }, time)
+    })
+  })
+}
+</script>
+```
+
 
 
