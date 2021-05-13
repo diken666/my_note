@@ -793,6 +793,17 @@ function btnClick(type) {
 }
 </script>
 ```
+  
+42. js中的栈内存和堆内存，[参考链接](https://juejin.cn/post/6844903873992196110)
++ 像`Number` `String` `Boolean` `null` `undefined` `Symbol` 等简单数据类型都是存储在栈内存上的，遵循先进后出的方式
++ 引用数据类型都是存储在堆内存上的，闭包里的变量也是存在堆内存上的(需声明后调用才行，否则不会形成)
+```js
+// ⚠️ 注意，用new创建出来的变量也是存储在堆内存上的，如
+let a = new String('123')
+let b = new String('123')
+let c = '123'
+console.log(a == b, a === b, a == c, a === c) // false, false, true, false
+```
 
 
 
