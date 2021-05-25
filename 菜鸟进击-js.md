@@ -829,8 +829,11 @@ window.addEventListener('scroll', lazyload)
 - 使用`IntersectionObserver`，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
 ```js
 const config = {
+  // 目标所在的容器节点
   root: document.getElementById("xxx"),
+  // 根元素的margin，影响交叉区域
   rootMargin: "0px",
+  // 阀值，决定什么时候触发，数字或数组
   threshold: 0
 }
 let observer = new IntersectionObserver((entrys, self) => {
