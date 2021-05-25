@@ -829,25 +829,25 @@ window.addEventListener('scroll', lazyload)
 - 使用`IntersectionObserver`，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
 ```js
 const config = {
-	root: document.getElementById("xxx"),
-	rootMargin: "0px"
-	threshold: 0
+  root: document.getElementById("xxx"),
+  rootMargin: "0px",
+  threshold: 0
 }
 let observer = new IntersectionObserver((entrys, self) => {
-	entrys.forEach(item => {
-	  // 当监视元素出现在可视区域时
-		if (item.isIntersecting) {
-		  // 处理代码
-		  // 解除监视
-		  self.unobserve(item)
-		}
-	})
+  entrys.forEach(item => {
+  // 当监视元素出现在可视区域时
+    if (item.isIntersecting) {
+      // 处理代码
+      // 解除监视
+      self.unobserve(item)
+    }
+  })
 }, config)
 let scrollImgs = document.getElementByTagName("img")
 // 遍历，监视图片元素
 Array.from(scrollImgs).forEach(item => {
-	// 开始监视
-	observer.observe(item)
+  // 开始监视
+  observer.observe(item)
 })
 ```
 
