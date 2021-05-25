@@ -793,7 +793,7 @@ function btnClick(type) {
 }
 </script>
 ```
-  
+
 42. js中的栈内存和堆内存，[参考链接](https://juejin.cn/post/6844903873992196110)
 + 像`Number` `String` `Boolean` `null` `undefined` `Symbol` 等简单数据类型都是存储在栈内存上的，遵循先进后出的方式
 + 引用数据类型都是存储在堆内存上的，闭包里的变量也是存在堆内存上的(需声明后调用才行，否则不会形成)
@@ -805,5 +805,49 @@ let c = '123'
 console.log(a == b, a === b, a == c, a === c) // false, false, true, false
 ```
 
+43. 图片懒加载实现
+- 使用`getBoundingClientRect`的方式
+```js
+function lazyload() {
+  let viewHeight = document.body.clientHeight //获取可视区高度
+  let imgs = document.querySelectorAll('img[data-src]')
+  imgs.forEach((item, index) => {
+    if (item.dataset.src === '') return
 
+    // 用于获得页面中某个元素的左，上，右和下分别相对浏览器视窗的位置
+    let rect = item.getBoundingClientRect()
+    // 这里用可视区高度做比较，不是很懂
+    if (rect.bottom >= 0 && rect.top < viewHeight) {
+      item.src = item.dataset.src
+      item.removeAttribute('data-src')
+    }
+  })
+}
+// 可以使用节流优化一下
+window.addEventListener('scroll', lazyload)
+```
+- 使用`IntersectionObserver`，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API)
+```js
+const config = {
+	root: document.getElementById("xxx"),
+	rootMargin: "0px"
+	threshold: 0
+}
+let observer = new IntersectionObserver((entrys, self) => {
+	entrys.forEach(item => {
+	  // 当监视元素出现在可视区域时
+		if (item.isIntersecting) {
+		  // 处理代码
+		  // 解除监视
+		  self.unobserve(item)
+		}
+	})
+}, config)
+let scrollImgs = document.getElementByTagName("img")
+// 遍历，监视图片元素
+Array.from(scrollImgs).forEach(item => {
+	// 开始监视
+	observer.observe(item)
+})
+```
 
