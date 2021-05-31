@@ -853,3 +853,25 @@ Array.from(scrollImgs).forEach(item => {
 })
 ```
 
+44. 使用`MutationObserver`监听DOM的改变，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver)
+```html
+<div id="con"></div>
+<script>
+  let conDom = document.getElementById("con")
+  // 需要观察的变动
+  const config = {
+    attributes: true,
+    childList: true,
+    subtree: true
+  }
+  function callBack() {
+    console.log("change !")
+  }
+  let observer = new MutationObserver(callback)
+  // 开始监听
+  observer.observe(conDom, config)
+  // 停止监听
+  observer.disconnect()
+</script>
+```
+
